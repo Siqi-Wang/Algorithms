@@ -1,0 +1,42 @@
+#include<iostream>
+using namespace std;
+int BinarySearch(int array[],int x, int *i,int *j);
+
+int main()
+{
+   int array[10]={1,4,7,9,14,17,21,32,42,43};
+   int x;                  //the number for searching
+   int a,b,*i,*j;                 //the location sign
+   i=&a;
+   j=&b;
+   cout<<"Please input the number you want to search:"<<endl;
+   cin>>x;
+   BinarySearch(array,x,i,j);  //call function
+   if(*i==*j)
+      cout<<x<<" is in "<<*i<<endl;
+   else 
+       cout<<x<<" is between array["<<*i<<"] "<<" and array["<<*j<<"]"<<endl;
+   return 0;
+}
+
+int BinarySearch(int array[],int x, int *i,int *j)
+{
+  int mid=0;
+  int left=0,right=9;
+  while(left<=right)
+  {
+     mid=(left+right)/2;
+     if(x==array[mid])
+     {
+       *i=*j=mid;
+       return 0;
+     }
+     if(x>array[mid])
+        left=mid+1;
+     else
+        right=mid-1;
+  }  
+  *i=right;
+  *j=left;
+  return 0;
+}
