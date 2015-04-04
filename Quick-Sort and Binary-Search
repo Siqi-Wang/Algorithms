@@ -1,0 +1,79 @@
+#include<iostream>
+using namespace std;
+
+void QuickSort(long array[],int p, int r);
+int Partition(long array[],int p,int r);
+void Swap(long &n,long &m);
+int BinarySearch(long array[],int n,long k);
+
+int main()
+{
+    int n;
+    long k;
+    long array[1000000];
+    cin>>n>>k;
+    for(int i=0;i<n;i++)
+		cin>>array[i];
+    QuickSort(array,0,n-1);
+    BinarySearch(array,n-1,k);
+	return 0;
+}
+
+
+
+void QuickSort(long array[], int p,int r)
+{
+    int q=0;
+    if(p<r)
+    {
+        q=Partition(array,p,r);
+        QuickSort(array,p,q-1);
+        QuickSort(array,q+1,r);
+    }
+}
+
+int Partition(long array[],int p,int r)
+{
+    long x=array[r];
+    int i=p-1;
+    for(int j=p;j<r;j++)
+    {
+        if(array[j]<x)
+		{
+			i++;
+			Swap(array[i],array[j]);
+		}
+    }
+    Swap(array[++i],array[r]);
+    return i;
+}
+
+void Swap(long &n,long &m)
+{
+    long temp=n;
+    n=m;
+    m=temp;
+}
+
+int BinarySearch(long array[],int n,long k)
+{
+    int left=0;
+    int right=n;
+    int mid=0;
+    while(left<=right)
+    {
+        mid=(right+left)/2;              
+        if(k==array[mid])
+        {
+            mid++;
+			cout<<mid<<endl;
+			return 0;
+		}
+        if(k<array[mid])
+           right=mid-1;
+        else
+           left=mid+1;
+    }
+    cout<<-1<<endl;
+	return 0;
+}
