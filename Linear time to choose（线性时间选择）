@@ -1,0 +1,91 @@
+//This progress is used to choose the k'st number in a array in O(n) time 
+#include <iostream> 
+using namespace std;
+int Select(int a[],int p,int r,int k);
+void QuickSort(int a[],int p,int r);
+int Partition(int a[],int p,int r,int x);
+void Swap(int &i,int &j);
+
+
+int main(int argc, char const *argv[])
+{
+	int a[100000];
+	int n;
+	int k;
+	cout<<"Please input the length of array:";
+	cin>>n;
+	cout<<"Please input the array:\n";
+	for (int i = 0; i < n; ++i)
+		cin>>a[i];
+	cout<<"Please input the k'st number you want to know:";
+	cin>>k;
+	k=Select(a,0,n-1,k);
+	cout<<"Now the array is :";
+	for(i=0;i<n;i++)
+		cout<<a[i]<<"\t";
+	cout<<endl<<"the k'st number is :"<<k<<endl;
+
+	return 0;
+}
+
+int Select(int a[],int p,int r,int k)
+{
+	if(r-p<20)
+		{
+			QuickSort(a,p,r);
+			return a[p+k-1];
+		}
+	for (int i = 0; i <=(r-p-4)/5; ++i)
+	{
+		QuickSort(a,p+5*i,p+5*i+4);
+		Swap(a[p+i],a[p+5*i+2]);
+	}
+	int x=Select(a,p,p+(r-p-4)/5,(r-p-4)/10);
+	i=Partition(a,p,r,x);
+	int j=i-p+1;
+	if(k<=j)
+		return Select(a,p,i,k);
+	else
+		return Select(a,i+1,r,k-j);
+}
+
+void QuickSort(int a[],int p,int r)
+{
+	if(p<r)
+	{
+		int q=Partition(a,p,r,a[r]);
+		QuickSort(a,p,q-1);
+		QuickSort(a,q+1,r);
+	}
+}
+
+
+int Partition(int a[],int p,int r,int x)
+{
+	for(int i=p;i<r;i++)
+	{
+		if(x==a[i])
+			break;
+	}
+	Swap(a[i],a[p]);
+	i=p;
+	int j=r+1;
+	while(true)
+	{
+		while(a[++i]<x && i<r);
+		while(a[--j]>x);
+		if(i>=j)
+			break;
+		Swap(a[i],a[j]);
+	}
+	a[p]=a[j];
+	a[j]=x;
+	return j;
+}
+
+void Swap(int &i,int &j)
+{
+	int temp=i;
+	i=j;
+	j=temp;
+}
