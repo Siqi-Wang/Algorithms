@@ -20,7 +20,7 @@ int main(int argc, char const *argv[])
 	cout<<"Please input the k'st number you want to know:";
 	cin>>k;
 	k=Select(a,0,n-1,k);
-	cout<<"Now the array is :";
+	cout<<"Now the array is :\n";
 	for(i=0;i<n;i++)
 		cout<<a[i]<<"\t";
 	cout<<endl<<"the k'st number is :"<<k<<endl;
