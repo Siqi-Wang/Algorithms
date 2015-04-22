@@ -1,0 +1,57 @@
+//问题：二维费用的背包问题是指对于每件物品，具有两种不同的费用，选择这件物品必须同时付出这两种代价，对于每种代价都有一个可付出的
+最大值（背包容量），求选择物品可以得到最大的价值。设第i件物品所需的两种代价分别为w[i]和b[i]，两种代价可付出的最大值（两种背包容量）
+分别为c和d，物品的价值为v[i]
+
+#include <iostream> 
+using namespace std;
+void Knapsack(int w[],int *b,int *v,int f[][100],int c,int d,int n);
+int Max(int a,int b);
+
+
+int main(int argc, char const *argv[])
+{
+	int w[100];   //物品重量
+	int b[100];   //物品体积
+	int v[100];   //物品价值
+	int f[100][100]={0};
+	int c; //背包容量
+	int d;  //背包体积
+	int n;  //n种物品
+	cout<<"输入背包容量、体积、和物品数量：";
+	cin>>c>>d>>n;
+	cout<<"依次输入第i个背包的容量、体积、价值："<<endl;
+	for (int i = 0; i < n; ++i)
+		cin>>w[i]>>b[i]>>v[i];
+	Knapsack(w,b,v,f,c,d,n);
+	cout<<f[c-1][d-1]<<endl;
+	return 0;
+}
+
+void Knapsack(int w[],int *b,int *v,int f[][100],int c,int d,int n)
+{
+	for(int i=0;i<n;i++)
+	{
+		for(int j=c;j>=w[i];j--)
+		{
+			for(int x=d;x>=b[i];x--)
+				f[j][x]=Max(f[j][x],f[j-w[i]][x-b[i]]+v[i]);
+		}
+
+
+
+		/*	一边计算一边输出,需要详细了解算法的可以去掉注释，因为此算法不需要知道中间过程，所以只是测试和了解用
+		for(int y=0;y<c;y++)
+		{
+			for (int z=0; z<d; ++z)
+				cout<<f[y][z]<<"\t";
+			cout<<endl;
+		}
+		cout<<endl;    */
+	}
+}
+
+int Max(int a,int b)
+{
+	return a>b?a:b;
+}
+
