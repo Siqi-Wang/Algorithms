@@ -1,0 +1,99 @@
+//问题：给定由n个互不相同的数组成的集合S以及正整数k<=n，试设计一个O(n)时间算法找出S中最接近S的中位数的k个数
+
+
+
+#include <iostream> 
+#include <stdlib.h>
+using namespace std;
+
+int Select(int a[],int p,int r,int k);
+void QuickSort(int a[],int p,int r);
+int Partition(int a[],int p,int r,int x);
+void Swap(int &i,int &j);
+
+
+int main(int argc, char const *argv[])
+{
+	int a[100],b[100],c[100];
+	int n;
+	int k,s;
+	cout<<"Please input the length of array:\n";
+	cin>>n;
+	cout<<"Please input the array:\n";
+	for (int i = 0; i < n; ++i)
+		cin>>a[i];
+	cout<<"Please input how many number you want to know:\n";
+	cin>>k;
+	s=Select(a,0,n-1,n/2);
+	for(i=0;i<n;i++)
+		b[i]=c[i]=abs(a[i]-s);
+	int x=Select(c,0,n-1,k);
+	for(i=0;i<n;i++)
+	{
+		if(b[i]<=x && b[i]!=0)
+			cout<<a[i]<<"\t";
+	}
+	return 0;
+}
+
+int Select(int a[],int p,int r,int k)
+{
+	if(r-p<20)
+		{
+			QuickSort(a,p,r);
+			return a[p+k-1];
+		}
+	for (int i = 0; i <=(r-p-4)/5; ++i)
+	{
+		QuickSort(a,p+5*i,p+5*i+4);
+		Swap(a[p+i],a[p+5*i+2]);
+	}
+	int x=Select(a,p,p+(r-p-4)/5,(r-p-4)/10);
+	i=Partition(a,p,r,x);
+	int j=i-p+1;
+	if(k<=j)
+		return Select(a,p,i,k);
+	else
+		return Select(a,i+1,r,k-j);
+}
+
+void QuickSort(int a[],int p,int r)
+{
+	if(p<r)
+	{
+		int q=Partition(a,p,r,a[r]);
+		QuickSort(a,p,q-1);
+		QuickSort(a,q+1,r);
+	}
+}
+
+
+int Partition(int a[],int p,int r,int x)
+{
+	for(int i=p;i<r;i++)
+	{
+		if(x==a[i])
+			break;
+	}
+	Swap(a[i],a[p]);
+	i=p;
+	int j=r+1;
+	while(true)
+	{
+		while(a[++i]<x && i<r);
+		while(a[--j]>x);
+		if(i>=j)
+			break;
+		Swap(a[i],a[j]);
+	}
+	a[p]=a[j];
+	a[j]=x;
+	return j;
+}
+
+void Swap(int &i,int &j)
+{
+	int temp=i;
+	i=j;
+	j=temp;
+}
