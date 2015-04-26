@@ -1,0 +1,27 @@
+#include<iostream>
+using namespace std;
+int Coin[11],T[11],f[20005];
+ inline int min(int a,int b){
+     return a>b?b:a;
+ }
+ int main()
+ {
+     int i,j,k,n,m;     
+	 cin>>n;
+     for(i=0;i<n;i++)
+         cin>>T[i]>>Coin[i];
+     cin>>m;
+     for(i=1;i<=m;i++)
+         f[i]=1000;
+     for(i=0;i<n;i++)
+	 {
+		 for(j=1;j<=Coin[i];j++)
+             for(k=m;k>=T[i];k--)
+                 f[k]=min(f[k],f[k-T[i]]+1); //递推方程式 
+	 }
+	 if(f[m]<m)
+		 cout<<"最小为:"<<f[m]<<endl;
+	 else
+		 cout<<"找不开"<<endl;
+     return 0;
+ }
