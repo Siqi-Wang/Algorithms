@@ -1,0 +1,32 @@
+*/Description
+设有n 个顾客同时等待一项服务。顾客i需要的服务时间为t i，1≤i≤n。共有s处可以提供此项服务。应如何安排n 个顾客的服务次序才能使平均等待时间达到最小?平均等待时间是n 个顾客等待服务时间的总和除以n。
+
+对于给定的n 个顾客需要的服务时间和s的值，计算最优服务次序。
+Input
+输入数据的第一行有2 个正整数n （n≤10000）和s（s≤1000），表示有n 个顾客且有s 处可以提供顾客需要的服务。接下来的1 行中，有n个正整数，表示n个顾客需要的服务时间。
+Output
+输出数据只有一个整数（计算结果四舍五入），表示计算出的最小平均等待时间。
+*/
+
+#include<iostream>
+using namespace std;
+
+int main()
+{
+	int n,s;
+	cin >> n>>s;
+	int a[100] = { 0 };
+	for (int i = 1; i <=n; i++)
+		cin >> a[i];
+	QuickSort(a, 1, n);   //快排略
+	double sum=0;
+	for (int j = 1; j <= s; j++)
+	{
+		for (int i = j + s; i <= n; i += s)
+			a[i] += a[i - s];
+	}
+	for (int i = 1; i <= n; i++)
+		sum += a[i];
+	cout << sum / n<<endl;
+	return 0;
+}
