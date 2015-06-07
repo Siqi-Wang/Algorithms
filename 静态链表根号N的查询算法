@@ -1,0 +1,85 @@
+#include<iostream>
+#include<stdlib.h>
+using namespace std;
+
+struct List
+{
+	int value[10];
+	int link[10];
+};
+
+
+int belist(List &a, int x, int n)     //返回前驱元素
+{
+	int index = 0;
+	int max =0;
+	int m = rand() % n*n;
+	for (int i = 1; i <= m; i++)
+	{
+		int j = rand() % n;
+		int y = a.value[j];
+		if ((max < y) && (y < x))
+		{
+			max = y;
+			index = j;
+		}
+	}
+	while (a.value[a.link[index]] != x)
+		index=a.link[index];
+	return a.value[index];
+}
+
+int aflist(List &a, int x, int n)   //返回后继元素
+{
+	int index = 0;
+	int max = 0;
+	int m = rand() % n*n;
+	for (int i = 1; i <= m; i++)
+	{
+		int j = rand() % n;
+		int y = a.value[j];
+		if ((max < y) && (y <=x))
+		{
+			max = y;
+			index = j;
+		}
+		while (a.value[index] != x)
+			index = a.link[index];
+		return a.value[a.link[index]];
+	}
+}
+
+int Maxlist(List &a, int n)   //返回最大元素
+{
+	int index = 0;
+	int max =0;
+	int m = rand() % n*n;
+	for (int i = 1; i <= m; i++)
+	{
+		int j = rand() % n;
+		int y = a.value[j];
+		if (max < y)
+		{
+			max = y;
+			index = j;
+		}
+	}
+	while (a.link[index] != 0)
+		index = a.link[index];
+	return a.value[index];
+}
+
+
+int main()
+{
+	List a = { { INT_MAX, 2, 3, 13, 1, 5, 21, 8 }, { 4, 2, 5, 6, 1, 7, 0, 3 } };
+	int x;
+	cout << "输入要查询的元素:";
+	cin >> x;
+	cout<<"前驱元素是："<<belist(a, x, 7)<<endl;
+	cout <<"后继元素是：" <<aflist(a, x, 7) << endl; 
+	cout << "最小元素是：" << a.value[a.link[0]] << endl;
+	cout <<"最大元素是："<< Maxlist(a, 7) << endl;
+	return 0;
+}
+
